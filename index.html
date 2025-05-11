@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Дефицит витаминов</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2980b9;
+    }
+
+    .result {
+      margin-top: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .card strong {
+      color: #2c3e50;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Проверь дефицит витаминов</h1>
+
+  <form id="symptomForm">
+    <label><input type="checkbox" value="бессонница"> Бессонница</label>
+    <label><input type="checkbox" value="слабость"> Слабость</label>
+    <label><input type="checkbox" value="судороги"> Судороги</label>
+    <label><input type="checkbox" value="выпадение волос"> Выпадение волос</label>
+    <label><input type="checkbox" value="трещины в уголках губ"> Трещины в уголках губ</label>
+    <label><input type="checkbox" value="кровоточивость дёсен"> Кровоточивость дёсен</label>
+    <label><input type="checkbox" value="ломкость ногтей"> Ломкость ногтей</label>
+    <label><input type="checkbox" value="сухая кожа"> Сухая кожа</label>
+    <label><input type="checkbox" value="депрессия"> Депрессия</label>
+    <label><input type="checkbox" value="онемение рук и ног"> Онемение рук и ног</label>
+    <button type="button" onclick="analyze()">Анализировать</button>
+  </form>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    const data = {
+      "бессонница": {
+        витамин: "Магний, В6",
+        продукты: "Бананы, орехи, шпинат, рыба, фасоль"
+      },
+      "слабость": {
+        витамин: "В12, железо, фолиевая кислота",
+        продукты: "Печень, мясо, яйца, бобовые, зелень"
+      },
+      "судороги": {
+        витамин: "Кальций, магний, В1",
+        продукты: "Молочные продукты, миндаль, зелень, крупы"
+      },
+      "выпадение волос": {
+        витамин: "Цинк, биотин (В7), железо",
+        продукты: "Орехи, яйца, говядина, семечки, авокадо"
+      },
+      "трещины в уголках губ": {
+        витамин: "В2, В3",
+        продукты: "Молоко, яйца, мясо, грибы, арахис"
+      },
+      "кровоточивость дёсен": {
+        витамин: "Витамин C",
+        продукты: "Апельсины, киви, перец, брокколи, клубника"
+      },
+      "ломкость ногтей": {
+        витамин: "Витамин D, кальций",
+        продукты: "Сыр, йогурт, яйца, жирная рыба, солнечный свет"
+      },
+      "сухая кожа": {
+        витамин: "Витамин A, цинк",
+        продукты: "Морковь, печень, рыба, тыква, орехи"
+      },
+      "депрессия": {
+        витамин: "Витамин D, В6, магний",
+        продукты: "Шоколад, яйца, тунец, бананы, семечки"
+      },
+      "онемение рук и ног": {
+        витамин: "В12, В1",
+        продукты: "Печень, мясо, молочные продукты, цельнозерновой хлеб"
+      }
+    };
+
+    function analyze() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
+
+      if (checkboxes.length === 0) {
+        resultDiv.innerHTML = "<p>Пожалуйста, выберите хотя бы один симптом.</p>";
+        return;
+      }
+
+      checkboxes.forEach(cb => {
+        const info = data[cb.value];
+        if (info) {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <strong>Симптом:</strong> ${cb.value}<br>
+            <strong>Возможный дефицит:</strong> ${info.витамин}<br>
+            <strong>Рекомендуемые продукты:</strong> ${info.продукты}
+          `;
+          resultDiv.appendChild(card);
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
